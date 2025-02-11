@@ -3,12 +3,11 @@
 const express = require('express');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { body, validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const connectToDatabase = require('../models/db');
 const dotenv = require('dotenv');
 const pino = require('pino');
 
-const app = express();
 const logger = pino();
 const router = express.Router();
 
@@ -99,7 +98,7 @@ router.post('/login', async (req, res) => {
         return res.json({ authtoken, userName, userEmail });
     } catch (e) {
         logger.error(e);
-        return res.status(500).send('Internal server error');
+        return res.status(500).send('Internal server error rrrrrrrrr');
     }
 });
 

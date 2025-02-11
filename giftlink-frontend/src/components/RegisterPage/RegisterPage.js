@@ -1,56 +1,51 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { urlConfig } from '../../config';
 import { useAppContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 import './RegisterPage.css';
 
 function RegisterPage() {
-    //insert code here to create useState hook variables for firstName, lastName, email, password
-    const { firstName, setFirstName } = useState('');
-    const { lastName, setLastName } = useState('');
-    const { email, setEmail } = useState('');
-    const { password, setPassword } = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [showerr, setShowerr] = useState('');
 
     const navigate = useNavigate();
 
     const { setIsLoggedIn } = useAppContext();
 
-    // insert code here to create handleRegister function and include console.log
     const handleRegister = async () => {
-        try {
-            const response = await fetch(`${urlConfig.backendUrl}/api/auth/register`, {
-                method: 'post',
-                headers: {
-                    'content-type': 'application/json',
-                },
-                body: JSON.stringify({
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    password: password,
-                }),
-            });
+        const response = await fetch(`${urlConfig.backendUrl}/api/auth/register`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password
+            })
+        });
 
-            const json = await response.json();
+        const json = await response.json();
+        console.log('json data', json);
+        console.log('er', json.error);
 
-            if (json.authtoken) {
-                sessionStorage.setItem('auth-token', json.authtoken);
-                sessionStorage.setItem('name', firstName);
-                sessionStorage.setItem('email', json.email);
-                setIsLoggedIn(true);
-                navigate('/app');
-            }
-
-            if (json.error) {
-                setShowerr(json.error);
-            }
-        } catch (e) {
-            console.log("Error fetching details: " + e.message);
+        if (json.authtoken) {
+            sessionStorage.setItem('auth-token', json.authtoken);
+            sessionStorage.setItem('name', firstName);
+            sessionStorage.setItem('email', json.email);
+            setIsLoggedIn(true);
+            navigate('/app');
         }
-    };
 
+        if (json.error) {
+            setShowerr(json.error);
+        }
+    }
     return (
         <div className="container mt-5">
             <div className="row justify-content-center">
@@ -91,6 +86,7 @@ function RegisterPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
+                            {/* Step 2 - Task 6*/}
                             <div className="text-danger">{showerr}</div>
                         </div>
                         <div className="mb-4">
