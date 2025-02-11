@@ -18,29 +18,29 @@ function DetailsPage() {
         }
 
         // get the gift to be rendered on the details page
+        const fetchGift = async () => {
+            try {
+                // Task 2: Fetch gift details
+                const url = `${urlConfig.backendUrl}/api/gifts/${productId}`;
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setGift(data);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchGift();
 
         // Task 3: Scroll to top on component mount
         window.scrollTo(0, 0);
 
     }, [productId, navigate]);
-
-    const fetchGift = async () => {
-        try {
-            // Task 2: Fetch gift details
-            const url = `${urlConfig.backendUrl}/api/gifts/${productId}`;
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            setGift(data);
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleBackClick = () => {
         // Task 4: Handle back click
