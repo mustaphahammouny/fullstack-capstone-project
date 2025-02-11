@@ -40,4 +40,4 @@ jobs:
           cd giftlink-frontend
           npm install
           npm run build
-          echo "Client-side build successfully
+          echo "Client-side build successfully"
