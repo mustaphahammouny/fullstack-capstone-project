@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
     try {
         // Task 1: Connect to MongoDB using connectToDatabase database. Remember to use the await keyword and store the connection in `db`
-        const db = connectToDatabase();
+        const db = await connectToDatabase();
 
         const collection = db.collection("gifts");
 

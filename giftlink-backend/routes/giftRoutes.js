@@ -19,14 +19,14 @@ router.get('/', async (req, res) => {
         return res.json(gifts);
     } catch (e) {
         console.error('Error fetching gifts:', e);
-        return res.status(500).send('Error fetching gifts');
+        next(e);
     }
 });
 
 router.get('/:id', async (req, res) => {
     try {
         // Task 1: Connect to MongoDB and store connection to db constant
-        const db = connectToDatabase();
+        const db = await connectToDatabase();
 
         // Task 2: use the collection() method to retrieve the gift collection
         const collection = db.collection('gifts');
@@ -43,7 +43,7 @@ router.get('/:id', async (req, res) => {
         return res.json(gift);
     } catch (e) {
         console.error('Error fetching gift:', e);
-        return res.status(500).send('Error fetching gift');
+        next(e);
     }
 });
 

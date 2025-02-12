@@ -89,7 +89,7 @@ router.post('/login', async (req, res) => {
         const userEmail = user.email;
 
         // Task 6: Create JWT authentication if passwords match with user._id as payload
-        jwt.sign(
+        const authtoken = jwt.sign(
             { user: { id: user._id.toString() } },
             JWT_SECRET
         );
@@ -98,7 +98,7 @@ router.post('/login', async (req, res) => {
         return res.json({ authtoken, userName, userEmail });
     } catch (e) {
         logger.error(e);
-        return res.status(500).send('Internal server error rrrrrrrrr');
+        return res.status(500).send('Internal server error');
     }
 });
 
